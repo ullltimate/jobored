@@ -8,6 +8,9 @@ import { Header,
           Text, 
           Select,
           Button,
+          TextInput,
+          Box,
+          rem,
         } from '@mantine/core';
 import { NavLink } from 'react-router-dom';
 import './App.css'
@@ -35,7 +38,7 @@ function App() {
       >
         {
           <Container>
-            <Flex>
+            <Flex columnGap={28}>
               <Card>
                 <Group spacing={67} mb={32}>
                   <Text>Фильтры</Text><Button variant="subtle" color="gray" compact>Сбросить все <Image src='../src/assets/close.svg'></Image></Button>
@@ -71,6 +74,30 @@ function App() {
                   Применить
                 </Button>
               </Card>
+              <Box w={600}>
+                <TextInput 
+                  placeholder='Введите название вакансии'
+                  display={'block'}
+                  icon={<Image width={16} src='../src/assets/search.svg'></Image>}
+                  rightSection={<Button color='#5E96FC' compact ml={-40}>Поиск</Button>}
+                  mb={16}
+                ></TextInput>
+                <Card>
+                  <Group position='apart' mb={12}>
+                    <NavLink to='/'>Менеджер-дизайнер</NavLink>
+                    <Image width={24} src='../src/assets/save.svg'></Image>
+                  </Group>
+                  <Group mb={12}>
+                    <Text fw={700}>з/п от 70000 rub</Text>
+                    <Text>•</Text>
+                    <Text>Полный рабочий день</Text>
+                  </Group>
+                  <Group>
+                    <Image width={20} src='../src/assets/location.svg'></Image>
+                    <Text>Новый Уренгой</Text>
+                  </Group>
+                </Card>
+              </Box>
             </Flex>
           </Container>
         }
