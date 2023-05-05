@@ -1,4 +1,14 @@
-import { Header, Container, Group, Image, AppShell, Flex } from '@mantine/core';
+import { Header, 
+          Container, 
+          Group, 
+          Image, 
+          AppShell, 
+          Flex, 
+          Card,
+          Text, 
+          Select,
+          Button,
+        } from '@mantine/core';
 import { NavLink } from 'react-router-dom';
 import './App.css'
 
@@ -8,7 +18,7 @@ function App() {
     <>
       <AppShell
         padding="md"
-        header={<Header height={84} p={24}>{     
+        header={<Header height={84} p={24} mb={40}>{     
           <Container>
             <Flex justify={"flex-start"} columnGap={280} align={'center'}>
               <Image height={36} width={141} fit='contain'  src='../src/assets/logot.svg'></Image>
@@ -23,7 +33,47 @@ function App() {
           main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
         })}
       >
-        {/* Your application here */}
+        {
+          <Container>
+            <Flex>
+              <Card>
+                <Group spacing={67} mb={32}>
+                  <Text>Фильтры</Text><Button variant="subtle" color="gray" compact>Сбросить все <Image src='../src/assets/close.svg'></Image></Button>
+                </Group>
+                <Select 
+                  label='Отрасль' 
+                  placeholder='Выберете отрасль'
+                  data={[
+                    { value: 'react', label: 'React' },
+                    { value: 'ng', label: 'Angular' },
+                  ]}
+                  mb={20}
+                >
+                </Select>
+                <Select 
+                  label='Оклад' 
+                  placeholder='От'
+                  data={[
+                    { value: '0', label: '0' },
+                  ]}
+                  mb={8}
+                >
+                </Select>
+                <Select 
+                  placeholder='До'
+                  data={[
+                    { value: '10', label: '100' },
+                  ]}
+                  mb={20}
+                >
+                </Select>
+                <Button color='#5E96FC' fullWidth>
+                  Применить
+                </Button>
+              </Card>
+            </Flex>
+          </Container>
+        }
     </AppShell>
     </>
   )
