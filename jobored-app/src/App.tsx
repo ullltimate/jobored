@@ -3,13 +3,7 @@ import { Header,
           Group, 
           Image, 
           AppShell, 
-          Flex, 
-          Card,
-          Text, 
-          Select,
-          Button,
-          TextInput,
-          Box,
+          Flex,
         } from '@mantine/core';
 import { NavLink, Outlet } from 'react-router-dom';
 import './App.css'
