@@ -7,18 +7,25 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import ErrorPage from './error-page.tsx';
+import Favorites from './Favorites.tsx';
+import SearchVacancy from './searchVacancy.tsx';
 
 const router = createBrowserRouter([
 { 
   path: "/",
   element: <App />,
-  errorElement: <ErrorPage />
+  errorElement: <ErrorPage />,
+  children: [
+    {
+      path: "/",
+      element: <SearchVacancy />,
+    },
+    {
+      path: "favorites",
+      element: <Favorites />,
+    },
+  ],
 },
-{ 
-  path: "/favorites",
-  element: <App />,
-  errorElement: <ErrorPage />
-}
 ]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
