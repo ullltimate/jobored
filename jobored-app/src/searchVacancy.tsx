@@ -1,9 +1,11 @@
-import { Flex, Card, Group, Button, Select, Box, TextInput, Text, Image } from "@mantine/core"
+import { Flex, Card, Group, Button, Select, Box, TextInput, Text, Image, Pagination } from "@mantine/core"
 import CardVacancy from "./cardVacancy"
 import { useState, useEffect } from "react";
 
 function SearchVacancy(){
     const [vacancies, setVacancies] = useState([]);
+    const [activePage, setPage] = useState(1);
+    const [categoties, setCategories] = useState([]);
 
     async function getToken() {
         try {
@@ -16,17 +18,17 @@ function SearchVacancy(){
             );
             const result = await response.json();
             return result;
-          } catch (e) {
+        } catch (e) {
             console.log(e);
-          }
+        }
     }
 
     useEffect(() => {
-        const fetchVacancies = async () => {
+        const fetchVacancies = async (page:number) => {
             const tokenObj = await getToken();
             const accessToken = tokenObj.access_token;
             const response = await fetch(
-                `https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/?count=4&page=1`, {
+                `https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/?count=4&page=${page-1}`, {
                     headers: {
                         'x-secret-key': 'GEU4nvd3rej*jeh.eqp',
                         'X-Api-App-Id': 'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
@@ -37,24 +39,49 @@ function SearchVacancy(){
             const data = await response.json();
             console.log(data.objects);
             setVacancies(data.objects);
-         };
-         fetchVacancies();
-     }, []);
+        };
+        fetchVacancies(activePage);
+    }, []);
+    
+    useEffect(() => {
+        const fetchCategories = async () => {
+            const tokenObj = await getToken();
+            const accessToken = tokenObj.access_token;
+            const response = await fetch(
+                `https://startup-summer-2023-proxy.onrender.com/2.0/catalogues/`, {
+                    headers: {
+                        'x-secret-key': 'GEU4nvd3rej*jeh.eqp',
+                        'X-Api-App-Id': 'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
+                        'Authorization': `Bearer ${accessToken}`
+                    }
+                  }
+            );
+            const data = await response.json();
+            console.log(data);
+            setCategories(data);
+        };
+        fetchCategories();
+    }, []);
+
+    function renderPage(vac: any){
+        return (
+            <>
+                {vac.map((e: any) => <CardVacancy profession={e.profession} town={e.town.title} paymentto={e.payment_to} paymentfrom={e.payment_from} currency={e.currency} typeWork={e.type_of_work.title} id={e.id}/>)}
+            </>
+        )
+    }
 
     return (
         <>
             <Flex columnGap={28}>
-              <Card>
+              <Card mah={360}>
                 <Group spacing={67} mb={32}>
                   <Text>Фильтры</Text><Button variant="subtle" color="gray" compact>Сбросить все <Image src='../src/assets/close.svg'></Image></Button>
                 </Group>
                 <Select 
                   label='Отрасль' 
                   placeholder='Выберете отрасль'
-                  data={[
-                    { value: 'react', label: 'React' },
-                    { value: 'ng', label: 'Angular' },
-                  ]}
+                  data={categoties.map((e:any)=>e.title_rus)}
                   mb={20}
                 >
                 </Select>
@@ -87,7 +114,8 @@ function SearchVacancy(){
                   rightSection={<Button color='#5E96FC' compact ml={-40}>Поиск</Button>}
                   mb={16}
                 ></TextInput>
-                {vacancies.map((e: any) => <CardVacancy profession={e.profession} town={e.town.title} paymentto={e.payment_to} paymentfrom={e.payment_from} currency={e.currency} typeWork={e.type_of_work.title}/>)}
+                {renderPage(vacancies)}
+                <Pagination value={activePage} onChange={setPage} total={3} position="center" />
               </Box>
             </Flex>
         </>

@@ -9,6 +9,7 @@ import {
 import ErrorPage from './error-page.tsx';
 import Favorites from './Favorites.tsx';
 import SearchVacancy from './searchVacancy.tsx';
+import Vacancy from './Vacancy.tsx';
 
 const router = createBrowserRouter([
 { 
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
     {
       path: "favorites",
       element: <Favorites />,
+    },
+    {
+      path: `/vacancy/:id`,
+      element: <Vacancy />,
     },
   ],
 },
