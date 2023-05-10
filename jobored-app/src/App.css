@@ -4,3 +4,9 @@
 .noActive{
   color: black;
 }
+.activeFav{
+  fill: #5E96FC;
+}
+.noActiveFav{
+  fill: #FFFFFF;
+}
