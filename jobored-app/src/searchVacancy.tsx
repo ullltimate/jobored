@@ -7,14 +7,19 @@ function SearchVacancy(){
     const [vacancies, setVacancies] = useState([]);
     const [activePage, setPage] = useState(1);
     const [categoties, setCategories] = useState([]);
+    let date = new Date();
+    let todayTimestamp = date.getTime()/1000;
 
     useEffect(() => {
         const fetchVacancies = async (page:number) => {
             let accessToken;
-            if(localStorage.getItem('token') === null){
+            let useTimeToken;
+            if(localStorage.getItem('token') === null || Number(localStorage.getItem('ttl')) <= todayTimestamp){
                 const tokenObj = await getToken();
                 accessToken = tokenObj.access_token;
+                useTimeToken = tokenObj.ttl;
                 localStorage.setItem('token', accessToken);
+                localStorage.setItem('ttl', useTimeToken);
             } else {
                 accessToken = localStorage.getItem('token');
             }
@@ -37,10 +42,13 @@ function SearchVacancy(){
     useEffect(() => {
         const fetchCategories = async () => {
             let accessToken;
-            if(localStorage.getItem('token') === null){
+            let useTimeToken;
+            if(localStorage.getItem('token') === null || Number(localStorage.getItem('ttl')) <= todayTimestamp){
                 const tokenObj = await getToken();
                 accessToken = tokenObj.access_token;
+                useTimeToken = tokenObj.ttl;
                 localStorage.setItem('token', accessToken);
+                localStorage.setItem('ttl', useTimeToken);
             } else {
                 accessToken = localStorage.getItem('token');
             }
