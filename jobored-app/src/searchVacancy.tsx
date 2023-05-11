@@ -1,4 +1,4 @@
-import { Flex, Card, Group, Button, Select, Box, TextInput, Text, Image, Pagination, Loader, Center } from "@mantine/core"
+import { Flex, Card, Group, Button, Select, Box, TextInput, Text, Image, Pagination, Loader, Center, NumberInput } from "@mantine/core"
 import CardVacancy from "./cardVacancy"
 import { useState, useEffect } from "react";
 import { getToken } from "./getToken";
@@ -40,7 +40,7 @@ function SearchVacancy(){
             setLoader(false);
         };
         fetchVacancies(activePage);
-    }, []);
+    }, [activePage]);
     
     useEffect(() => {
         const fetchCategories = async () => {
@@ -71,14 +71,6 @@ function SearchVacancy(){
         fetchCategories();
     }, []);
 
-    function renderPage(vac: any){
-        return (
-            <>
-                {vac.map((e: any) => <CardVacancy profession={e.profession} town={e.town.title} paymentto={e.payment_to} paymentfrom={e.payment_from} currency={e.currency} typeWork={e.type_of_work.title} id={e.id}/>)}
-            </>
-        )
-    }
-
     return (
         <>
             <Flex columnGap={28}>
@@ -94,25 +86,24 @@ function SearchVacancy(){
                   mb={20}
                 >
                 </Select>
-                <Select 
+                <NumberInput
+                  defaultValue={0}
                   data-elem='salary-from-input'
                   label='Оклад' 
                   placeholder='От'
-                  data={[
-                    { value: '0', label: '0' },
-                  ]}
+                  step={1000}
+                  min={0}
                   mb={8}
                 >
-                </Select>
-                <Select 
+                </NumberInput>
+                <NumberInput
                   data-elem='salary-to-input'
                   placeholder='До'
-                  data={[
-                    { value: '10', label: '100' },
-                  ]}
+                  step={1000}
+                  min={0}
                   mb={20}
                 >
-                </Select>
+                </NumberInput>
                 <Button color='#5E96FC' fullWidth data-elem='search-button'>
                   Применить
                 </Button>
@@ -129,9 +120,9 @@ function SearchVacancy(){
                 {
                   loading
                   ? <Center h={500}><Loader /></Center>
-                  : renderPage(vacancies)
+                  : vacancies.map((e: any) => <CardVacancy profession={e.profession} town={e.town.title} paymentto={e.payment_to} paymentfrom={e.payment_from} currency={e.currency} typeWork={e.type_of_work.title} id={e.id}/>)
                 }
-                <Pagination value={activePage} onChange={setPage} total={3} position="center" />
+                <Pagination value={activePage} onChange={setPage} total={500/4} position="center" />
               </Box>
             </Flex>
         </>
