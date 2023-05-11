@@ -1,4 +1,16 @@
-import { Flex, Card, Group, Button, Select, Box, TextInput, Text, Image, Pagination, Loader, Center, NumberInput } from "@mantine/core"
+import { Flex, 
+         Card, 
+         Group, 
+         Button, 
+         Select, 
+         Box, 
+         TextInput, 
+         Text, 
+         Image, 
+         Pagination, 
+         Loader, 
+         Center, 
+         NumberInput } from "@mantine/core"
 import CardVacancy from "./cardVacancy"
 import { useState, useEffect } from "react";
 import { getToken } from "./getToken";
@@ -10,9 +22,10 @@ function SearchVacancy(){
     const [loading, setLoader] = useState(false);
     let date = new Date();
     let todayTimestamp = date.getTime()/1000;
+    let [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
-        const fetchVacancies = async (page:number) => {
+        const fetchVacancies = async (page:number, searchValue?:string) => {
             let accessToken;
             let useTimeToken;
             if(localStorage.getItem('token') === null || Number(localStorage.getItem('ttl')) <= todayTimestamp){
@@ -26,7 +39,7 @@ function SearchVacancy(){
             }
             setLoader(true);
             const response = await fetch(
-                `https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/?count=4&page=${page-1}`, {
+                `https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/?count=4&page=${page-1}&keyword=${searchValue}`, {
                     headers: {
                         'x-secret-key': 'GEU4nvd3rej*jeh.eqp',
                         'X-Api-App-Id': 'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
@@ -39,8 +52,8 @@ function SearchVacancy(){
             setVacancies(data.objects);
             setLoader(false);
         };
-        fetchVacancies(activePage);
-    }, [activePage]);
+        fetchVacancies(activePage, searchQuery);
+    }, [activePage, searchQuery]);
     
     useEffect(() => {
         const fetchCategories = async () => {
@@ -87,7 +100,6 @@ function SearchVacancy(){
                 >
                 </Select>
                 <NumberInput
-                  defaultValue={0}
                   data-elem='salary-from-input'
                   label='Оклад' 
                   placeholder='От'
@@ -112,6 +124,8 @@ function SearchVacancy(){
                 <TextInput 
                   data-elem='search-input'
                   placeholder='Введите название вакансии'
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   display={'block'}
                   icon={<Image width={16} src='../src/assets/search.svg'></Image>}
                   rightSection={<Button color='#5E96FC' compact ml={-40} data-elem='search-button'>Поиск</Button>}
