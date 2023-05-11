@@ -50,7 +50,7 @@ function Vacancy(){
 
     return (
         <>
-            <CardVacancy profession={profession} paymentto={paymentto} paymentfrom={paymentfrom} currency={currency} town={town} typeWork={typeWork} />
+            <CardVacancy profession={profession} paymentto={paymentto} paymentfrom={paymentfrom} currency={currency} town={town} typeWork={typeWork} id={Number(params.id)}/>
             <Card>
                 <div dangerouslySetInnerHTML={{ __html: vacancy }} />
             </Card>
