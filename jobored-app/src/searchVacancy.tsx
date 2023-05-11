@@ -1,4 +1,4 @@
-import { Flex, Card, Group, Button, Select, Box, TextInput, Text, Image, Pagination } from "@mantine/core"
+import { Flex, Card, Group, Button, Select, Box, TextInput, Text, Image, Pagination, Loader, Center } from "@mantine/core"
 import CardVacancy from "./cardVacancy"
 import { useState, useEffect } from "react";
 import { getToken } from "./getToken";
@@ -7,6 +7,7 @@ function SearchVacancy(){
     const [vacancies, setVacancies] = useState([]);
     const [activePage, setPage] = useState(1);
     const [categoties, setCategories] = useState([]);
+    const [loading, setLoader] = useState(false);
     let date = new Date();
     let todayTimestamp = date.getTime()/1000;
 
@@ -23,6 +24,7 @@ function SearchVacancy(){
             } else {
                 accessToken = localStorage.getItem('token');
             }
+            setLoader(true);
             const response = await fetch(
                 `https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/?count=4&page=${page-1}`, {
                     headers: {
@@ -35,6 +37,7 @@ function SearchVacancy(){
             const data = await response.json();
             console.log(data.objects);
             setVacancies(data.objects);
+            setLoader(false);
         };
         fetchVacancies(activePage);
     }, []);
@@ -84,6 +87,7 @@ function SearchVacancy(){
                   <Text>Фильтры</Text><Button variant="subtle" color="gray" compact>Сбросить все <Image src='../src/assets/close.svg'></Image></Button>
                 </Group>
                 <Select 
+                  data-elem='industry-select'
                   label='Отрасль' 
                   placeholder='Выберете отрасль'
                   data={categoties.map((e:any)=>e.title_rus)}
@@ -91,6 +95,7 @@ function SearchVacancy(){
                 >
                 </Select>
                 <Select 
+                  data-elem='salary-from-input'
                   label='Оклад' 
                   placeholder='От'
                   data={[
@@ -100,6 +105,7 @@ function SearchVacancy(){
                 >
                 </Select>
                 <Select 
+                  data-elem='salary-to-input'
                   placeholder='До'
                   data={[
                     { value: '10', label: '100' },
@@ -107,19 +113,24 @@ function SearchVacancy(){
                   mb={20}
                 >
                 </Select>
-                <Button color='#5E96FC' fullWidth>
+                <Button color='#5E96FC' fullWidth data-elem='search-button'>
                   Применить
                 </Button>
               </Card>
               <Box w={600}>
                 <TextInput 
+                  data-elem='search-input'
                   placeholder='Введите название вакансии'
                   display={'block'}
                   icon={<Image width={16} src='../src/assets/search.svg'></Image>}
-                  rightSection={<Button color='#5E96FC' compact ml={-40}>Поиск</Button>}
+                  rightSection={<Button color='#5E96FC' compact ml={-40} data-elem='search-button'>Поиск</Button>}
                   mb={16}
                 ></TextInput>
-                {renderPage(vacancies)}
+                {
+                  loading
+                  ? <Center h={500}><Loader /></Center>
+                  : renderPage(vacancies)
+                }
                 <Pagination value={activePage} onChange={setPage} total={3} position="center" />
               </Box>
             </Flex>

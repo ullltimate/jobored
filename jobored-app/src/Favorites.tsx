@@ -1,4 +1,4 @@
-import { Text, Center, Image, Button, Box } from "@mantine/core"
+import { Text, Center, Image, Button, Box, Loader } from "@mantine/core"
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom"
 import { getToken } from "./getToken";
@@ -9,6 +9,7 @@ function Favorites(){
     let url:string = 'https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/?ids[]=';
     let params:string = '';
     let arrayIdLS = localStorage.getItem('arrayId');
+    const [loading, setLoader] = useState(false);
 
     if (arrayIdLS !== null){
         let arrayId = JSON.parse(arrayIdLS);
@@ -35,6 +36,7 @@ function Favorites(){
             } else {
                 accessToken = localStorage.getItem('token');
             }
+            setLoader(true);
             const response = await fetch(
                 url, {
                     headers: {
@@ -47,6 +49,7 @@ function Favorites(){
             const data = await response.json();
             console.log(data.objects);
             setFavorites(data.objects);
+            setLoader(false);
         };
         fetchVacancy();
     }, []);
@@ -56,7 +59,11 @@ function Favorites(){
         if(arrayId.length !== 0){
             return (
                 <>
-                    {favoritesVacancies.map((e:any) => <CardVacancy profession={e.profession} town={e.town.title} paymentto={e.payment_to} paymentfrom={e.payment_from} currency={e.currency} typeWork={e.type_of_work.title} id={e.id}/>)}
+                    {
+                    loading
+                    ? <Center h={500}><Loader /></Center>
+                    : favoritesVacancies.map((e:any) => <CardVacancy profession={e.profession} town={e.town.title} paymentto={e.payment_to} paymentfrom={e.payment_from} currency={e.currency} typeWork={e.type_of_work.title} id={e.id}/>)
+                    }
                 </>
             )
         }

@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Card } from "@mantine/core";
+import { Card, Loader, Center } from "@mantine/core";
 import CardVacancy from "./cardVacancy";
 import { getToken } from "./getToken";
 
@@ -15,6 +15,7 @@ function Vacancy(){
     const [currency, setCurrency] = useState('');
     const [town, setTown] = useState('');
     const [typeWork, setTypeWork] = useState('');
+    const [loading, setLoader] = useState(false);
 
     let date = new Date();
     let todayTimestamp = date.getTime()/1000;
@@ -32,6 +33,7 @@ function Vacancy(){
             } else {
                 accessToken = localStorage.getItem('token');
             }
+            setLoader(true);
             const response = await fetch(
                 `https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/${params.id}/`, {
                     headers: {
@@ -50,16 +52,23 @@ function Vacancy(){
             setCurrency(data.currency);
             setTown(data.town.title);
             setTypeWork(data.type_of_work.title);
+            setLoader(false);
         };
         fetchVacancy();
     }, []);
 
     return (
-        <>
-            <CardVacancy profession={profession} paymentto={paymentto} paymentfrom={paymentfrom} currency={currency} town={town} typeWork={typeWork} id={Number(params.id)}/>
-            <Card>
-                <div dangerouslySetInnerHTML={{ __html: vacancy }} />
-            </Card>
+        <>  
+            {
+              loading
+              ? <Center h={500}><Loader /></Center>
+              : <><CardVacancy profession={profession} paymentto={paymentto} paymentfrom={paymentfrom} currency={currency} town={town} typeWork={typeWork} id={Number(params.id)}/>
+                <Card>
+                    <div dangerouslySetInnerHTML={{ __html: vacancy }} />
+                </Card>
+                </>
+            }
+
         </>
     )
 }
