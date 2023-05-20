@@ -28,6 +28,7 @@ function SearchVacancy(){
     let [valuePeymentFrom, setValuePeymentFrom] = useState('');
     let [valuePeymentTo, setValuePeymentTo] = useState('');
     let [totalVac, setTotalVac] = useState(500);
+    let [valueSelect, setValueSelect] = useState('');
 
     useEffect(() => {
         const fetchVacancies = async (page:number, searchValue?:string) => {
@@ -92,12 +93,19 @@ function SearchVacancy(){
     function createSearchParams(categ: string, peyFrom: string, peyTo: string, searchValue: string){
       setSearchQuery(`&keyword=${searchValue}&catalogues=${categ}&payment_from=${peyFrom}&payment_to=${peyTo}`)
     }
+    function clearFilter(){
+      setTextInput('');
+      setValueSelect('');
+      setValuePeymentFrom('');
+      setValuePeymentTo('');
+      setSearchQuery('');
+    }
     return (
         <>
             <Flex columnGap={28}>
               <Card mah={360}>
                 <Group spacing={67} mb={32}>
-                  <Text>Фильтры</Text><Button variant="subtle" color="gray" compact>Сбросить все <Image src='../src/assets/close.svg'></Image></Button>
+                  <Text>Фильтры</Text><Button variant="subtle" color="gray" compact onClick={clearFilter}>Сбросить все <Image src='../src/assets/close.svg'></Image></Button>
                 </Group>
                 <Select 
                   data-elem='industry-select'
@@ -105,17 +113,23 @@ function SearchVacancy(){
                   placeholder='Выберете отрасль'
                   data={categoties.map((e:any) => e.title_trimmed)}
                   mb={20}
-                  onChange={(elem:any) => {categoties.map((e:any)=>{
-                    if(elem === e.title_trimmed){
-                      setKeySelect(e.key)
-                    }
-                  })}}
+                  clearable={true}
+                  value={valueSelect}
+                  onChange={(elem:any) => {
+                    setValueSelect(elem);
+                    categoties.map((e:any)=>{
+                      if(elem === e.title_trimmed){
+                        setKeySelect(e.key)
+                      }
+                    })}
+                  }
                 >
                 </Select>
                 <NumberInput
                   data-elem='salary-from-input'
                   label='Оклад' 
                   placeholder='От'
+                  value={Number(valuePeymentFrom) || ''}
                   step={1000}
                   min={0}
                   mb={8}
@@ -125,6 +139,7 @@ function SearchVacancy(){
                 <NumberInput
                   data-elem='salary-to-input'
                   placeholder='До'
+                  value={Number(valuePeymentTo) || ''}
                   step={1000}
                   min={0}
                   mb={20}
