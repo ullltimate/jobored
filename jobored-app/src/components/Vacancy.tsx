@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Card, Loader, Center } from "@mantine/core";
 import CardVacancy from "./CardVacancy";
-import { getHeaders, getToken, url } from '../healpers/apiHelpers';
+import { getHeaders, getToken, url } from '../helpers/apiHelpers';
 
 function Vacancy(){
     const params = useParams();
