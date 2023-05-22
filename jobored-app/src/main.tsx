@@ -6,9 +6,9 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import ErrorPage from './components/error-page.tsx';
+import ErrorPage from './components/ErrorPage.tsx';
 import Favorites from './components/Favorites.tsx';
-import SearchVacancy from './components/searchVacancy.tsx';
+import SearchVacancy from './components/SearchVacancy.tsx';
 import Vacancy from './components/Vacancy.tsx';
 
 const router = createBrowserRouter([

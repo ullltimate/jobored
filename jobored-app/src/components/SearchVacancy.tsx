@@ -11,7 +11,7 @@ import { Flex,
          Loader, 
          Center, 
          NumberInput } from "@mantine/core"
-import CardVacancy from "./cardVacancy"
+import CardVacancy from "./CardVacancy"
 import { useState, useEffect } from "react";
 import { getToken } from "../getToken";
 import EmptyState from "./EmptyState";
@@ -26,8 +26,8 @@ function SearchVacancy(){
     let [searchQuery, setSearchQuery] = useState('');
     let [textInput, setTextInput] = useState('');
     let [keySelect, setKeySelect] = useState('');
-    let [valuePeymentFrom, setValuePeymentFrom] = useState('');
-    let [valuePeymentTo, setValuePeymentTo] = useState('');
+    let [valuePaymentFrom, setValuePaymentFrom] = useState('');
+    let [valuePaymentTo, setValuePaymentTo] = useState('');
     let [totalVac, setTotalVac] = useState(500);
     let [valueSelect, setValueSelect] = useState('');
 
@@ -95,8 +95,8 @@ function SearchVacancy(){
     function clearFilter(){
       setTextInput('');
       setValueSelect('');
-      setValuePeymentFrom('');
-      setValuePeymentTo('');
+      setValuePaymentFrom('');
+      setValuePaymentTo('');
       setSearchQuery('');
     }
     if(totalVac === 0){
@@ -111,7 +111,7 @@ function SearchVacancy(){
             <Flex columnGap={18} wrap={'wrap'} justify={"center"}>
               <Card mah={360}>
                 <Group mb={32}>
-                  <Text mr={67} fw={700} size={20}>Фильтры</Text><Button variant="subtle" color="gray" compact onClick={clearFilter}>Сбросить все <Image src='../src/assets/close.svg'></Image></Button>
+                  <Text mr={67} fw={700} size={20}>Фильтры</Text><Button variant="subtle" color="gray" compact onClick={clearFilter}>Сбросить все <Image src='./close.svg'></Image></Button>
                 </Group>
                 <Select 
                   data-elem='industry-select'
@@ -135,24 +135,24 @@ function SearchVacancy(){
                   data-elem='salary-from-input'
                   label='Оклад' 
                   placeholder='От'
-                  value={Number(valuePeymentFrom) || ''}
+                  value={Number(valuePaymentFrom) || ''}
                   step={1000}
                   min={0}
                   mb={8}
-                  onChange={(e) => setValuePeymentFrom(String(e))}
+                  onChange={(e) => setValuePaymentFrom(String(e))}
                 >
                 </NumberInput>
                 <NumberInput
                   data-elem='salary-to-input'
                   placeholder='До'
-                  value={Number(valuePeymentTo) || ''}
+                  value={Number(valuePaymentTo) || ''}
                   step={1000}
                   min={0}
                   mb={20}
-                  onChange={(e) => setValuePeymentTo(String(e))}
+                  onChange={(e) => setValuePaymentTo(String(e))}
                 >
                 </NumberInput>
-                <Button color='#5E96FC' fullWidth data-elem='search-button' onClick={() => createSearchParams(keySelect, valuePeymentFrom, valuePeymentTo, textInput)}>
+                <Button color='#5E96FC' fullWidth data-elem='search-button' onClick={() => createSearchParams(keySelect, valuePaymentFrom, valuePaymentTo, textInput)}>
                   Применить
                 </Button>
               </Card>
@@ -163,8 +163,8 @@ function SearchVacancy(){
                   value={textInput}
                   onChange={(e) => setTextInput(e.target.value)}
                   display={'block'}
-                  icon={<Image width={16} src='../src/assets/search.svg'></Image>}
-                  rightSection={<Button color='#5E96FC' compact ml={-40} data-elem='search-button' onClick={() => createSearchParams(keySelect, valuePeymentFrom, valuePeymentTo, textInput)}>Поиск</Button>}
+                  icon={<Image width={16} src='./search.svg'></Image>}
+                  rightSection={<Button color='#5E96FC' compact ml={-40} data-elem='search-button' onClick={() => createSearchParams(keySelect, valuePaymentFrom, valuePaymentTo, textInput)}>Поиск</Button>}
                   mb={16}
                 ></TextInput>
                 {

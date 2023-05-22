@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Card, Loader, Center } from "@mantine/core";
-import CardVacancy from "./cardVacancy";
+import CardVacancy from "./CardVacancy";
 import { getToken } from '../getToken';
 
 function Vacancy(){

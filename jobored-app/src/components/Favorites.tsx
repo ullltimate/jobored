@@ -1,7 +1,7 @@
 import { Center, Loader } from "@mantine/core"
 import { useState, useEffect } from "react";
 import { getToken } from "../getToken";
-import CardVacancy from "./cardVacancy";
+import CardVacancy from "./CardVacancy";
 import EmptyState from "./EmptyState";
 
 function Favorites(){
