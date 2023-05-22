@@ -1,6 +1,6 @@
 import { Center, Loader, Pagination } from "@mantine/core"
 import { useState, useEffect } from "react";
-import { getHeaders, getToken, url } from "../healpers/apiHelpers";
+import { getHeaders, getToken, url } from "../helpers/apiHelpers";
 import CardVacancy from "./CardVacancy";
 import EmptyState from "./EmptyState";
 
