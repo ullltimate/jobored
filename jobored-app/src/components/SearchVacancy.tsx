@@ -13,7 +13,7 @@ import { Flex,
          NumberInput } from "@mantine/core"
 import CardVacancy from "./CardVacancy"
 import { useState, useEffect } from "react";
-import { getToken } from "../getToken";
+import { HEADERS, getToken, url } from "../helpers";
 import EmptyState from "./EmptyState";
 
 function SearchVacancy(){
@@ -46,12 +46,8 @@ function SearchVacancy(){
             }
             setLoader(true);
             const response = await fetch(
-                `https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/?count=4&page=${page-1}&published=1&no_agreement=1${searchValue}`, {
-                    headers: {
-                        'x-secret-key': 'GEU4nvd3rej*jeh.eqp',
-                        'X-Api-App-Id': 'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
-                        'Authorization': `Bearer ${accessToken}`
-                    }
+                `${url}/vacancies/?count=4&page=${page-1}&published=1&no_agreement=1${searchValue}`, {
+                    headers: HEADERS(accessToken)
                   }
             );
             const data = await response.json();
@@ -76,12 +72,8 @@ function SearchVacancy(){
                 accessToken = localStorage.getItem('token');
             }
             const response = await fetch(
-                `https://startup-summer-2023-proxy.onrender.com/2.0/catalogues/`, {
-                    headers: {
-                        'x-secret-key': 'GEU4nvd3rej*jeh.eqp',
-                        'X-Api-App-Id': 'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
-                        'Authorization': `Bearer ${accessToken}`
-                    }
+                `${url}/catalogues/`, {
+                    headers: HEADERS(accessToken)
                   }
             );
             const data = await response.json();
@@ -89,8 +81,8 @@ function SearchVacancy(){
         };
         fetchCategories();
     }, []);
-    function createSearchParams(categ: string, peyFrom: string, peyTo: string, searchValue: string){
-      setSearchQuery(`&keyword=${searchValue}&catalogues=${categ}&payment_from=${peyFrom}&payment_to=${peyTo}`)
+    function createSearchParams(categ: string, payFrom: string, payTo: string, searchValue: string){
+      setSearchQuery(`&keyword=${searchValue}&catalogues=${categ}&payment_from=${payFrom}&payment_to=${payTo}`)
     }
     function clearFilter(){
       setTextInput('');

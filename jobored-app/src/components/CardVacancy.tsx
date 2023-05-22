@@ -58,18 +58,18 @@ function CardVacancy(props:any){
         }
     }
     
-    function salary(peyFrom: number, peyTo: number){
+    function salary(payFrom: number, payTo: number){
         let salary:string;
         let strFrom: string = ' ';
         let strTo: string = ' ';
-        if (peyFrom !== 0){
-           strFrom = ` от ${peyFrom} `;
+        if (payFrom !== 0){
+           strFrom = ` от ${payFrom} `;
         }
-        if (peyTo !== 0){
-            strTo = ` до ${peyTo} `;
+        if (payTo !== 0){
+            strTo = ` до ${payTo} `;
         }
-        if (peyFrom === peyTo){
-            salary = `з/п ${peyFrom} `
+        if (payFrom === payTo){
+            salary = `з/п ${payFrom} `
         } else {
             salary = `з/п ${strFrom} ${strTo}`
         }

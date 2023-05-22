@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Card, Loader, Center } from "@mantine/core";
 import CardVacancy from "./CardVacancy";
-import { getToken } from '../getToken';
+import { HEADERS, getToken, url } from '../helpers';
 
 function Vacancy(){
     const params = useParams();
@@ -34,12 +34,8 @@ function Vacancy(){
             }
             setLoader(true);
             const response = await fetch(
-                `https://startup-summer-2023-proxy.onrender.com/2.0/vacancies/${params.id}/`, {
-                    headers: {
-                        'x-secret-key': 'GEU4nvd3rej*jeh.eqp',
-                        'X-Api-App-Id': 'v3.r.137440105.ffdbab114f92b821eac4e21f485343924a773131.06c3bdbb8446aeb91c35b80c42ff69eb9c457948',
-                        'Authorization': `Bearer ${accessToken}`
-                    }
+                `${url}/vacancies/${params.id}/`, {
+                    headers: HEADERS(accessToken)
                   }
             );
             const data = await response.json();
