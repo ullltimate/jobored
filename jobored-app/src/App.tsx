@@ -17,10 +17,10 @@ function App() {
         header={<Header className='header' height={84} p={24} mb={40}>{     
           <Container>
             <Flex justify={"space-between"} align={'center'}>
-              <Image className='header-logo' height={36} width={141} fit='contain'  src='./logot.svg'></Image>
+              <NavLink to='/'><Image className='header-logo' height={36} width={141} fit='contain'  src='./logot.svg'></Image></NavLink>
               <Group className='links-list' pr={300}>
-                  <NavLink to='/' className={`${setActive} header-link`}>Поиск вакансий</NavLink>
-                  <NavLink to='/favorites' className={setActive}>Избранное</NavLink>
+                  <NavLink to='/' className={setActive}>Поиск вакансий</NavLink>
+                  <NavLink to='/favorites' style={{marginLeft: 60}} className={setActive}>Избранное</NavLink>
               </Group>
             </Flex>
           </Container>

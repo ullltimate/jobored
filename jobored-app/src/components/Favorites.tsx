@@ -1,6 +1,6 @@
 import { Center, Loader } from "@mantine/core"
 import { useState, useEffect } from "react";
-import { HEADERS, getToken, url } from "../helpers";
+import { getHeaders, getToken, url } from "../helpers";
 import CardVacancy from "./CardVacancy";
 import EmptyState from "./EmptyState";
 
@@ -39,7 +39,7 @@ function Favorites(){
             setLoader(true);
             const response = await fetch(
                 urlIds, {
-                    headers: HEADERS(accessToken)
+                    headers: getHeaders(accessToken)
                   }
             );
             const data = await response.json();

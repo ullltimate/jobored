@@ -39,4 +39,12 @@
   .header-logo{
     max-width: 120px;
   }
+  .filters-title{
+    margin-right: 10px;
+  }
+}
+@media screen and (max-width: 345px) {
+  .filters-block{
+    max-height: 380px;
+  }
 }

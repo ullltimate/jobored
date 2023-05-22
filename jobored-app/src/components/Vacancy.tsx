@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Card, Loader, Center } from "@mantine/core";
 import CardVacancy from "./CardVacancy";
-import { HEADERS, getToken, url } from '../helpers';
+import { getHeaders, getToken, url } from '../helpers';
 
 function Vacancy(){
     const params = useParams();
@@ -35,7 +35,7 @@ function Vacancy(){
             setLoader(true);
             const response = await fetch(
                 `${url}/vacancies/${params.id}/`, {
-                    headers: HEADERS(accessToken)
+                    headers: getHeaders(accessToken)
                   }
             );
             const data = await response.json();
@@ -57,7 +57,7 @@ function Vacancy(){
               loading
               ? <Center h={500}><Loader /></Center>
               : <><CardVacancy profession={profession} paymentto={paymentto} paymentfrom={paymentfrom} currency={currency} town={town} typeWork={typeWork} id={Number(params.id)}/>
-                <Card>
+                <Card maw={773} mr={'auto'} ml={'auto'} radius={12}>
                     <div dangerouslySetInnerHTML={{ __html: vacancy }} />
                 </Card>
                 </>

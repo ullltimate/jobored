@@ -31,7 +31,7 @@ function CardVacancy(props:any){
                 if(arrayId[i] === props.id){
                     return (
                         <>
-                            <Card mb={16} data-elem={`vacancy-${props.id}`}>
+                            <Card mb={16} ml={'auto'} mr={'auto'} data-elem={`vacancy-${props.id}`} maw={773} radius={12}>
                                 <Group position='apart' mb={12}>
                                     <NavLink to={`/vacancy/${props.id}`} style={{maxWidth: 500, fontSize: 20}}>{props.profession}</NavLink>
                                     <svg data-elem={`vacancy-${props.id}-shortlist-button`} className="activeFav" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={changeColor}>
@@ -78,7 +78,7 @@ function CardVacancy(props:any){
 
     return (
         <>
-            <Card mb={16} data-elem={`vacancy-${props.id}`}>
+            <Card mb={16} ml={'auto'} mr={'auto'} data-elem={`vacancy-${props.id}`} maw={773} radius={12}>
                 <Group position='apart' mb={12}>
                     <NavLink to={`/vacancy/${props.id}`} style={{maxWidth: 500, fontSize: 20}}>{props.profession}</NavLink>
                     <svg data-elem={`vacancy-${props.id}-shortlist-button`} width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={changeColor}>

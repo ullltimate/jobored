@@ -13,7 +13,7 @@ import { Flex,
          NumberInput } from "@mantine/core"
 import CardVacancy from "./CardVacancy"
 import { useState, useEffect } from "react";
-import { HEADERS, getToken, url } from "../helpers";
+import { getHeaders, getToken, url } from "../helpers";
 import EmptyState from "./EmptyState";
 
 function SearchVacancy(){
@@ -47,7 +47,7 @@ function SearchVacancy(){
             setLoader(true);
             const response = await fetch(
                 `${url}/vacancies/?count=4&page=${page-1}&published=1&no_agreement=1${searchValue}`, {
-                    headers: HEADERS(accessToken)
+                    headers: getHeaders(accessToken)
                   }
             );
             const data = await response.json();
@@ -73,7 +73,7 @@ function SearchVacancy(){
             }
             const response = await fetch(
                 `${url}/catalogues/`, {
-                    headers: HEADERS(accessToken)
+                    headers: getHeaders(accessToken)
                   }
             );
             const data = await response.json();
@@ -101,9 +101,9 @@ function SearchVacancy(){
     return (
         <>
             <Flex columnGap={18} wrap={'wrap'} justify={"center"}>
-              <Card mah={360}>
+              <Card className="filters-block" mah={360} mb={15} radius={12}>
                 <Group mb={32}>
-                  <Text mr={67} fw={700} size={20}>Фильтры</Text><Button variant="subtle" color="gray" compact onClick={clearFilter}>Сбросить все <Image src='./close.svg'></Image></Button>
+                  <Text className="filters-title" mr={67} fw={700} size={20}>Фильтры</Text><Button variant="subtle" color="gray" compact onClick={clearFilter}>Сбросить все <Image src='./close.svg'></Image></Button>
                 </Group>
                 <Select 
                   data-elem='industry-select'
@@ -144,7 +144,7 @@ function SearchVacancy(){
                   onChange={(e) => setValuePaymentTo(String(e))}
                 >
                 </NumberInput>
-                <Button color='#5E96FC' fullWidth data-elem='search-button' onClick={() => createSearchParams(keySelect, valuePaymentFrom, valuePaymentTo, textInput)}>
+                <Button color='#5E96FC' fullWidth data-elem='search-button' radius={8} onClick={() => createSearchParams(keySelect, valuePaymentFrom, valuePaymentTo, textInput)}>
                   Применить
                 </Button>
               </Card>
@@ -156,6 +156,7 @@ function SearchVacancy(){
                   onChange={(e) => setTextInput(e.target.value)}
                   display={'block'}
                   icon={<Image width={16} src='./search.svg'></Image>}
+                  onKeyDown={(e) => e.code === 'Enter' ? createSearchParams(keySelect, valuePaymentFrom, valuePaymentTo, textInput) : ''}
                   rightSection={<Button color='#5E96FC' compact ml={-40} data-elem='search-button' onClick={() => createSearchParams(keySelect, valuePaymentFrom, valuePaymentTo, textInput)}>Поиск</Button>}
                   mb={16}
                 ></TextInput>
