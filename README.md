@@ -8,6 +8,6 @@ https://sensational-bubblegum-47f684.netlify.app/
 ### Запуск проекта локально:
 
 - git clone https://github.com/ullltimate/jobored.git
-- cd jobored-app
+- cd jobored/jobored-app
 - npm install
 - npm run dev
