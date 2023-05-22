@@ -1,0 +1,50 @@
+.active{
+  color: #5E96FC;
+}
+.noActive{
+  color: black;
+}
+.activeFav{
+  fill: #5E96FC;
+}
+.noActiveFav{
+  fill: #FFFFFF;
+}
+.header-link{
+  margin-right: 60px;
+}
+.mantine-Select-label,
+.mantine-NumberInput-label{
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+}
+@media screen and (max-width: 800px) {
+  .links-list{
+    padding-right: 0;
+    justify-content: flex-end;
+  }
+  .header-link{
+    margin-right: 0;
+  }
+}
+@media screen and (max-width: 460px) {
+  .header{
+    padding: 10px;
+  }
+}
+@media screen and (max-width: 420px) {
+  .header-logo{
+    max-width: 120px;
+  }
+  .filters-title{
+    margin-right: 10px;
+  }
+}
+@media screen and (max-width: 345px) {
+  .filters-block{
+    max-height: 380px;
+  }
+}
