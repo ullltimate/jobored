@@ -1,6 +1,6 @@
 import { Center, Loader } from "@mantine/core"
 import { useState, useEffect } from "react";
-import { getToken } from "./getToken";
+import { getToken } from "../getToken";
 import CardVacancy from "./cardVacancy";
 import EmptyState from "./EmptyState";
 
@@ -47,7 +47,6 @@ function Favorites(){
                   }
             );
             const data = await response.json();
-            console.log(data.objects);
             setFavorites(data.objects);
             setLoader(false);
         };

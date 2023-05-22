@@ -13,7 +13,7 @@ import { Flex,
          NumberInput } from "@mantine/core"
 import CardVacancy from "./cardVacancy"
 import { useState, useEffect } from "react";
-import { getToken } from "./getToken";
+import { getToken } from "../getToken";
 import EmptyState from "./EmptyState";
 
 function SearchVacancy(){
@@ -55,7 +55,6 @@ function SearchVacancy(){
                   }
             );
             const data = await response.json();
-            console.log(data.total);
             setVacancies(data.objects);
             setLoader(false);
             setTotalVac(data.total);
@@ -86,7 +85,6 @@ function SearchVacancy(){
                   }
             );
             const data = await response.json();
-            console.log(data);
             setCategories(data);
         };
         fetchCategories();

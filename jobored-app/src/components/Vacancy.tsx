@@ -2,11 +2,10 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Card, Loader, Center } from "@mantine/core";
 import CardVacancy from "./cardVacancy";
-import { getToken } from "./getToken";
+import { getToken } from '../getToken';
 
 function Vacancy(){
     const params = useParams();
-    console.log(params.id);
 
     const [vacancy, setVacancy] = useState('');
     const [profession, setProfession] = useState('');
@@ -44,7 +43,6 @@ function Vacancy(){
                   }
             );
             const data = await response.json();
-            console.log(data);
             setVacancy(data.vacancyRichText);
             setProfession(data.profession);
             setPaymentTo(data.payment_to);
