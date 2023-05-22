@@ -13,7 +13,7 @@ import { Flex,
          NumberInput } from "@mantine/core"
 import CardVacancy from "./CardVacancy"
 import { useState, useEffect } from "react";
-import { getHeaders, getToken, url } from "../helpers";
+import { getHeaders, getToken, url } from "../healpers/apiHelpers";
 import EmptyState from "./EmptyState";
 
 function SearchVacancy(){
