@@ -14,12 +14,12 @@ function App() {
     <>
       <AppShell
         padding="md"
-        header={<Header height={84} p={24} mb={40}>{     
+        header={<Header className='header' height={84} p={24} mb={40}>{     
           <Container>
-            <Flex justify={"flex-start"} columnGap={280} align={'center'}>
-              <Image height={36} width={141} fit='contain'  src='../src/assets/logot.svg'></Image>
-              <Group>
-                  <NavLink to='/' className={setActive} style={{marginRight: 60}}>Поиск вакансий</NavLink>
+            <Flex justify={"space-between"} align={'center'}>
+              <Image className='header-logo' height={36} width={141} fit='contain'  src='../src/assets/logot.svg'></Image>
+              <Group className='links-list' pr={300}>
+                  <NavLink to='/' className={`${setActive} header-link`}>Поиск вакансий</NavLink>
                   <NavLink to='/favorites' className={setActive}>Избранное</NavLink>
               </Group>
             </Flex>

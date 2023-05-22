@@ -14,6 +14,7 @@ import { Flex,
 import CardVacancy from "./cardVacancy"
 import { useState, useEffect } from "react";
 import { getToken } from "./getToken";
+import EmptyState from "./EmptyState";
 
 function SearchVacancy(){
     const [vacancies, setVacancies] = useState([]);
@@ -100,16 +101,23 @@ function SearchVacancy(){
       setValuePeymentTo('');
       setSearchQuery('');
     }
+    if(totalVac === 0){
+      return (
+        <>
+          <EmptyState/>
+        </>
+      )
+    }
     return (
         <>
-            <Flex columnGap={28}>
+            <Flex columnGap={18} wrap={'wrap'} justify={"center"}>
               <Card mah={360}>
-                <Group spacing={67} mb={32}>
-                  <Text>Фильтры</Text><Button variant="subtle" color="gray" compact onClick={clearFilter}>Сбросить все <Image src='../src/assets/close.svg'></Image></Button>
+                <Group mb={32}>
+                  <Text mr={67} fw={700} size={20}>Фильтры</Text><Button variant="subtle" color="gray" compact onClick={clearFilter}>Сбросить все <Image src='../src/assets/close.svg'></Image></Button>
                 </Group>
                 <Select 
                   data-elem='industry-select'
-                  label='Отрасль' 
+                  label='Отрасль'
                   placeholder='Выберете отрасль'
                   data={categoties.map((e:any) => e.title_trimmed)}
                   mb={20}
@@ -164,7 +172,7 @@ function SearchVacancy(){
                 {
                   loading
                   ? <Center h={500}><Loader /></Center>
-                  : vacancies.map((e: any) => <CardVacancy profession={e.profession} town={e.town.title} paymentto={e.payment_to} paymentfrom={e.payment_from} currency={e.currency} typeWork={e.type_of_work.title} id={e.id}/>)
+                  : vacancies.map((e: any) => <CardVacancy profession={e.profession} town={e.town.title} paymentto={e.payment_to} paymentfrom={e.payment_from} currency={e.currency} typeWork={e.type_of_work.title} id={e.id} key={e.id}/>)
                 }
                 <Pagination value={activePage} onChange={setPage} total={totalVac>500 ? 500/4 : Math.ceil(totalVac/4)} position="center" />
               </Box>

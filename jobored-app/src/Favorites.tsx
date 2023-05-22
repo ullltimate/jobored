@@ -1,8 +1,8 @@
-import { Text, Center, Image, Button, Box, Loader } from "@mantine/core"
+import { Center, Loader } from "@mantine/core"
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom"
 import { getToken } from "./getToken";
 import CardVacancy from "./cardVacancy";
+import EmptyState from "./EmptyState";
 
 function Favorites(){
 
@@ -62,7 +62,7 @@ function Favorites(){
                     {
                     loading
                     ? <Center h={500}><Loader /></Center>
-                    : favoritesVacancies.map((e:any) => <CardVacancy profession={e.profession} town={e.town.title} paymentto={e.payment_to} paymentfrom={e.payment_from} currency={e.currency} typeWork={e.type_of_work.title} id={e.id}/>)
+                    : favoritesVacancies.map((e:any) => <CardVacancy profession={e.profession} town={e.town.title} paymentto={e.payment_to} paymentfrom={e.payment_from} currency={e.currency} typeWork={e.type_of_work.title} id={e.id} key={e.id}/>)
                     }
                 </>
             )
@@ -71,13 +71,7 @@ function Favorites(){
 
     return (
         <>  
-            <Center mt={120}>
-                <Box ta={'center'}>
-                    <Image width={240} src='../src/assets/favorite-empty.svg' ml={'auto'} mr={'auto'}></Image>
-                    <Text m={32} fw={700} ff={'Inter'} fz={24}>Упс, здесь еще ничего нет!</Text>
-                    <NavLink to='/'><Button variant="light">Поиск вакансий</Button></NavLink>
-                </Box>
-            </Center>
+            <EmptyState />
         </>
     )
 }
