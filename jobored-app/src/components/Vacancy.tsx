@@ -15,18 +15,18 @@ function Vacancy(){
     const [currency, setCurrency] = useState('');
     const [town, setTown] = useState('');
     const [typeWork, setTypeWork] = useState('');
-    const {obj, loading, error} = useFetch(`${urlAPI}/vacancies/${params.id}/`);
+    const {responseObj, loading, error} = useFetch(`${urlAPI}/vacancies/${params.id}/`);
     if(error){
         console.log(error);
     }
     useEffect(() => {
-        obj && setVacancy(obj.vacancyRichText);
-        obj && setProfession(obj.profession);
-        obj && setPaymentTo(obj.payment_to);
-        obj && setPaymentFrom(obj.payment_from);
-        obj && setCurrency(obj.currency);
-        obj && setTown(obj.town.title);
-        obj && setTypeWork(obj.type_of_work.title);
+        responseObj && setVacancy(responseObj.vacancyRichText);
+        responseObj && setProfession(responseObj.profession);
+        responseObj && setPaymentTo(responseObj.payment_to);
+        responseObj && setPaymentFrom(responseObj.payment_from);
+        responseObj && setCurrency(responseObj.currency);
+        responseObj && setTown(responseObj.town.title);
+        responseObj && setTypeWork(responseObj.type_of_work.title);
     })
 
     return (

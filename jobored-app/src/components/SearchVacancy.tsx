@@ -27,8 +27,8 @@ function SearchVacancy(){
     let [valuePaymentTo, setValuePaymentTo] = useState('');
     let [totalVac, setTotalVac] = useState(500);
     let [valueSelect, setValueSelect] = useState('');
-    const {obj, loading, error} = useFetch(`${urlAPI}/vacancies/?count=4&page=${activePage-1}&published=1&no_agreement=1${searchQuery}`);
-    const {obj: objCateg, loading: loadingCateg, error: errorCateg} = useFetch(`${urlAPI}/catalogues/`);
+    const {responseObj, loading, error} = useFetch(`${urlAPI}/vacancies/?count=4&page=${activePage-1}&published=1&no_agreement=1${searchQuery}`);
+    const {responseObj: objCateg, loading: loadingCateg, error: errorCateg} = useFetch(`${urlAPI}/catalogues/`);
     if(error){
       console.log(error);
     }
@@ -39,7 +39,7 @@ function SearchVacancy(){
       objCateg && setCategories(objCateg);
     })
     useEffect(()=>{
-      obj && setTotalVac(obj.total);
+      responseObj && setTotalVac(responseObj.total);
     })
 
     function createSearchParams(categ: string, payFrom: string, payTo: string, searchValue: string){
@@ -123,7 +123,7 @@ function SearchVacancy(){
                 ></TextInput>
                 { loading 
                 ? <Center h={500}><Loader /></Center>
-                : obj && obj.objects.map((e: any) => <CardVacancy profession={e.profession} town={e.town.title} paymentto={e.payment_to} paymentfrom={e.payment_from} currency={e.currency} typeWork={e.type_of_work.title} id={e.id} key={e.id}/>)
+                : responseObj && responseObj.objects.map((e: any) => <CardVacancy profession={e.profession} town={e.town.title} paymentto={e.payment_to} paymentfrom={e.payment_from} currency={e.currency} typeWork={e.type_of_work.title} id={e.id} key={e.id}/>)
                 }
               <Pagination value={activePage} onChange={setPage} total={totalVac>500 ? 500/4 : Math.ceil(totalVac/4)} position="center" />
               </Box>

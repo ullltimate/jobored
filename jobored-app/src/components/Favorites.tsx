@@ -22,14 +22,14 @@ function Favorites(){
     }
     urlIds = urlIds.concat(params);
 
-    const {obj, loading, error} = useFetch(`${urlIds}&count=4&page=${activePage-1}`);
+    const {responseObj, loading, error} = useFetch(`${urlIds}&count=4&page=${activePage-1}`);
     if(error){
         console.log(error);
     }
 
     useEffect(()=>{
-       obj && setFavorites(obj.objects);
-       obj && setTotalVac(obj.total);
+        responseObj && setFavorites(responseObj.objects);
+        responseObj && setTotalVac(responseObj.total);
     })
 
     if (arrayIdLS !== null){

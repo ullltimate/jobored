@@ -3,7 +3,7 @@ import { getHeaders, getToken } from "../helpers/apiHelpers";
 
 export function useFetch(url: string){
 
-    const [obj, setObj] = useState<any | null>(null);
+    const [responseObj, setObj] = useState<any | null>(null);
     const [loading, setLoader] = useState(false);
     const [error,setError] = useState(null);
 
@@ -40,5 +40,5 @@ export function useFetch(url: string){
         fetchVacancies();
     }, [url]);
 
-    return {obj, loading, error}
+    return {responseObj, loading, error}
 }
