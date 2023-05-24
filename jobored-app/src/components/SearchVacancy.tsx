@@ -13,16 +13,13 @@ import { Flex,
          NumberInput } from "@mantine/core"
 import CardVacancy from "./CardVacancy"
 import { useState, useEffect } from "react";
-import { getHeaders, getToken, url } from "../helpers/apiHelpers";
+import { urlAPI } from "../helpers/apiHelpers";
 import EmptyState from "./EmptyState";
+import { useFetch } from "../helpers/useFetch";
 
 function SearchVacancy(){
-    const [vacancies, setVacancies] = useState([]);
     const [activePage, setPage] = useState(1);
     const [categoties, setCategories] = useState([]);
-    const [loading, setLoader] = useState(false);
-    let date = new Date();
-    let todayTimestamp = date.getTime()/1000;
     let [searchQuery, setSearchQuery] = useState('');
     let [textInput, setTextInput] = useState('');
     let [keySelect, setKeySelect] = useState('');
@@ -30,57 +27,21 @@ function SearchVacancy(){
     let [valuePaymentTo, setValuePaymentTo] = useState('');
     let [totalVac, setTotalVac] = useState(500);
     let [valueSelect, setValueSelect] = useState('');
+    const {obj, loading, error} = useFetch(`${urlAPI}/vacancies/?count=4&page=${activePage-1}&published=1&no_agreement=1${searchQuery}`);
+    const {obj: objCateg, loading: loadingCateg, error: errorCateg} = useFetch(`${urlAPI}/catalogues/`);
+    if(error){
+      console.log(error);
+    }
+    if(errorCateg){
+      console.log(errorCateg);
+    }
+    useEffect(()=>{
+      objCateg && setCategories(objCateg);
+    })
+    useEffect(()=>{
+      obj && setTotalVac(obj.total);
+    })
 
-    useEffect(() => {
-        const fetchVacancies = async (page:number, searchValue?:string) => {
-            let accessToken;
-            let useTimeToken;
-            if(localStorage.getItem('token') === null || Number(localStorage.getItem('ttl')) <= todayTimestamp){
-                const tokenObj = await getToken();
-                accessToken = tokenObj.access_token;
-                useTimeToken = tokenObj.ttl;
-                localStorage.setItem('token', accessToken);
-                localStorage.setItem('ttl', useTimeToken);
-            } else {
-                accessToken = localStorage.getItem('token');
-            }
-            setLoader(true);
-            const response = await fetch(
-                `${url}/vacancies/?count=4&page=${page-1}&published=1&no_agreement=1${searchValue}`, {
-                    headers: getHeaders(accessToken)
-                  }
-            );
-            const data = await response.json();
-            setVacancies(data.objects);
-            setLoader(false);
-            setTotalVac(data.total);
-        };
-        fetchVacancies(activePage, searchQuery);
-    }, [activePage, searchQuery]);
-    
-    useEffect(() => {
-        const fetchCategories = async () => {
-            let accessToken;
-            let useTimeToken;
-            if(localStorage.getItem('token') === null || Number(localStorage.getItem('ttl')) <= todayTimestamp){
-                const tokenObj = await getToken();
-                accessToken = tokenObj.access_token;
-                useTimeToken = tokenObj.ttl;
-                localStorage.setItem('token', accessToken);
-                localStorage.setItem('ttl', useTimeToken);
-            } else {
-                accessToken = localStorage.getItem('token');
-            }
-            const response = await fetch(
-                `${url}/catalogues/`, {
-                    headers: getHeaders(accessToken)
-                  }
-            );
-            const data = await response.json();
-            setCategories(data);
-        };
-        fetchCategories();
-    }, []);
     function createSearchParams(categ: string, payFrom: string, payTo: string, searchValue: string){
       setSearchQuery(`&keyword=${searchValue}&catalogues=${categ}&payment_from=${payFrom}&payment_to=${payTo}`)
     }
@@ -160,12 +121,11 @@ function SearchVacancy(){
                   rightSection={<Button color='#5E96FC' compact ml={-40} data-elem='search-button' onClick={() => createSearchParams(keySelect, valuePaymentFrom, valuePaymentTo, textInput)}>Поиск</Button>}
                   mb={16}
                 ></TextInput>
-                {
-                  loading
-                  ? <Center h={500}><Loader /></Center>
-                  : vacancies.map((e: any) => <CardVacancy profession={e.profession} town={e.town.title} paymentto={e.payment_to} paymentfrom={e.payment_from} currency={e.currency} typeWork={e.type_of_work.title} id={e.id} key={e.id}/>)
+                { loading 
+                ? <Center h={500}><Loader /></Center>
+                : obj && obj.objects.map((e: any) => <CardVacancy profession={e.profession} town={e.town.title} paymentto={e.payment_to} paymentfrom={e.payment_from} currency={e.currency} typeWork={e.type_of_work.title} id={e.id} key={e.id}/>)
                 }
-                <Pagination value={activePage} onChange={setPage} total={totalVac>500 ? 500/4 : Math.ceil(totalVac/4)} position="center" />
+              <Pagination value={activePage} onChange={setPage} total={totalVac>500 ? 500/4 : Math.ceil(totalVac/4)} position="center" />
               </Box>
             </Flex>
         </>
