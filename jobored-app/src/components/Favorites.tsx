@@ -1,17 +1,18 @@
 import { Center, Loader, Pagination } from "@mantine/core"
 import { useState, useEffect } from "react";
-import { getHeaders, getToken, url } from "../helpers/apiHelpers";
+import { urlAPI } from "../helpers/apiHelpers";
 import CardVacancy from "./CardVacancy";
 import EmptyState from "./EmptyState";
+import { useFetch } from "../helpers/useFetch";
 
 function Favorites(){
 
     const [activePage, setPage] = useState(1);
     let [totalVac, setTotalVac] = useState(500);
-    let urlIds:string = `${url}/vacancies/?ids[]=`;
+    let urlIds:string = `${urlAPI}/vacancies/?ids[]=`;
     let params:string = '';
     let arrayIdLS = localStorage.getItem('arrayId');
-    const [loading, setLoader] = useState(false);
+    const [favoritesVacancies, setFavorites] = useState([]);
 
     if (arrayIdLS !== null){
         let arrayId = JSON.parse(arrayIdLS);
@@ -21,36 +22,15 @@ function Favorites(){
     }
     urlIds = urlIds.concat(params);
 
-    let date = new Date();
-    let todayTimestamp = date.getTime()/1000;
+    const {responseObj, loading, error} = useFetch(`${urlIds}&count=4&page=${activePage-1}`);
+    if(error){
+        console.log(error);
+    }
 
-    const [favoritesVacancies, setFavorites] = useState([]);
-    useEffect(() => {
-        const fetchVacancy = async (page: number) => {
-            let accessToken;
-            let useTimeToken;
-            if(localStorage.getItem('token') === null || Number(localStorage.getItem('ttl')) <= todayTimestamp){
-                const tokenObj = await getToken();
-                accessToken = tokenObj.access_token;
-                useTimeToken = tokenObj.ttl;
-                localStorage.setItem('token', accessToken);
-                localStorage.setItem('ttl', useTimeToken);
-            } else {
-                accessToken = localStorage.getItem('token');
-            }
-            setLoader(true);
-            const response = await fetch(
-                `${urlIds}&count=4&page=${page-1}`, {
-                    headers: getHeaders(accessToken)
-                  }
-            );
-            const data = await response.json();
-            setFavorites(data.objects);
-            setLoader(false);
-            setTotalVac(data.total);
-        };
-        fetchVacancy(activePage);
-    }, [activePage]);
+    useEffect(()=>{
+        responseObj && setFavorites(responseObj.objects);
+        responseObj && setTotalVac(responseObj.total);
+    })
 
     if (arrayIdLS !== null){
         let arrayId = JSON.parse(arrayIdLS);
