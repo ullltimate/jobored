@@ -66,24 +66,28 @@ function SearchVacancy(){
                 <Group mb={32}>
                   <Text className="filters-title" mr={67} fw={700} size={20}>Фильтры</Text><Button variant="subtle" color="gray" compact onClick={clearFilter}>Сбросить все <Image src='./close.svg'></Image></Button>
                 </Group>
-                <Select 
-                  data-elem='industry-select'
-                  label='Отрасль'
-                  placeholder='Выберете отрасль'
-                  data={categoties.map((e:any) => e.title_trimmed)}
-                  mb={20}
-                  clearable={true}
-                  value={valueSelect}
-                  onChange={(elem:any) => {
-                    setValueSelect(elem);
-                    categoties.map((e:any)=>{
-                      if(elem === e.title_trimmed){
-                        setKeySelect(e.key)
+                {
+                  loadingCateg
+                  ? <Center><Loader /></Center>
+                  : <Select 
+                      data-elem='industry-select'
+                      label='Отрасль'
+                      placeholder='Выберете отрасль'
+                      data={categoties.map((e:any) => e.title_trimmed)}
+                      mb={20}
+                      clearable={true}
+                      value={valueSelect}
+                      onChange={(elem:any) => {
+                        setValueSelect(elem);
+                        categoties.map((e:any)=>{
+                          if(elem === e.title_trimmed){
+                            setKeySelect(e.key)
+                          }
+                        })}
                       }
-                    })}
-                  }
-                >
-                </Select>
+                      >
+                    </Select>
+                }
                 <NumberInput
                   data-elem='salary-from-input'
                   label='Оклад' 
